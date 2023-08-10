@@ -1,0 +1,33 @@
+.header {
+  display: flex;
+  align-items: center;
+  min-height: 60px;
+  padding: 5px 26px 18px;
+}
+
+.header-navlink {
+  flex: 1;
+  color: black;
+  display: flex;
+  align-items: center;
+}
+
+.header-navlink_item,
+.header-navlink_item--btn {
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: 500;
+  display: inline-block;
+  margin-left: 18px;
+  color: black;
+  cursor: pointer;
+}
+
+.header-navlink_item:hover {
+  text-decoration: underline;
+}
+
+.header-navlink_item--icon {
+  margin-left: 18px;
+  cursor: pointer;
+}

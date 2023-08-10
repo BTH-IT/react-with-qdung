@@ -1,0 +1,12 @@
+.sub-header_title {
+  text-align: center;
+  max-width: 1080px;
+  margin: 0 auto;
+  letter-spacing: var(--letter-spacing, normal);
+  font-size: 3.8rem;
+  line-height: 1.2;
+}
+
+.sub-header_title span {
+  font-weight: 700;
+}

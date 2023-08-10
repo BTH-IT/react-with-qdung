@@ -1,0 +1,6 @@
+.popular-tags_list {
+  display: grid;
+  width: 100%;
+  gap: 10px;
+  grid-template-columns: repeat(7,1fr);
+}

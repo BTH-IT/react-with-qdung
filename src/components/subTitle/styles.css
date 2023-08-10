@@ -1,0 +1,10 @@
+.sub-title {
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.2;
+  display: block;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #080B12;
+}
