@@ -8,6 +8,11 @@
   height: 120px;
   border-radius: 30px;
   overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.popular-tag_item:hover {
+  transform: translateY(-3px);
 }
 
 .popular-tag_item-title {

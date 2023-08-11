@@ -4,7 +4,7 @@ import "./styles.css";
 
 const Header = () => {
   return (
-    <div className="header">
+    <header className="header">
       <Logo></Logo>
       <div className="header-navlink">
         <a href="#" className="header-navlink_item">
@@ -59,7 +59,7 @@ const Header = () => {
       <a href="/" className="header-navlink_item--btn">
         <Button className="btn btn-primary">Become a subcriber</Button>
       </a>
-    </div>
+    </header>
   );
 };
 

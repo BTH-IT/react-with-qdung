@@ -11,6 +11,10 @@
   background-color: #f1f1f3;
 }
 
+.search:hover {
+  background-color: #e8e8ec;
+}
+
 .search input {
   flex: 1;
   border: none;

@@ -1,0 +1,20 @@
+.previous-posts_grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.previous-posts_footer {
+  display: flex;
+  margin-top: 25px;
+  justify-content: center;
+}
+
+.previous-posts_footer > .btn {
+  padding: 16px 32px;
+  font-weight: 700;
+}
+
+.previous-posts_footer > .btn.btn-primary:hover {
+  padding: 16px 36px;
+}

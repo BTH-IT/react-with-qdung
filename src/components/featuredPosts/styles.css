@@ -1,0 +1,44 @@
+.featured-posts_container {
+  padding: 55px 92px 73px;
+  background-color: #f8f6f8;
+  border-radius: 22px;
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 0;
+}
+
+.featured-posts_container p{
+  width: 100%;
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.featuredposts_title {
+  margin: 0px 219px 64px;
+  text-align: center;
+  font-size: 5rem;
+  font-weight: 700;
+}
+
+.featured-posts_list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 35px;
+}
+
+.featured-posts_footer {
+  display: flex;
+  justify-content: end;
+  margin-top: 30px;
+}
+
+.featured-posts_footer a {
+  color: #080b12;
+  text-decoration: none;
+  opacity: 0.9;
+}
+
+.featured-posts_footer:hover a {
+  text-decoration: underline;
+}
