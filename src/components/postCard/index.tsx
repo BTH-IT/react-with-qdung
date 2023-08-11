@@ -5,7 +5,7 @@ import PostCardTag from "../postCardTag";
 
 const PostCard = ({ description = false, author = true, tags = true }: any) => {
   return (
-    <div className="post-card">
+    <div className="post-card mobile">
       <div className="post-card_image">
         <a href="#">
           <img
@@ -14,34 +14,36 @@ const PostCard = ({ description = false, author = true, tags = true }: any) => {
           />
         </a>
       </div>
-      {tags && (
-        <div className="post-card_tags">
-          <PostCardTag href="#">Lifestyle</PostCardTag>
-          <PostCardTag href="#">Eco</PostCardTag>
-          <PostCardTag href="#">Health</PostCardTag>
-        </div>
-      )}
-      <a href="#" className="post-card_title">
-        The trick to getting more done is to have the freedom to roam around
-      </a>
-      {description && (
-        <p className="post-card_description">
-          Vel lectus vel velit pellentesque dignissim nec id magna. Cras
-          molestie ornare quam at semper. Proin a ipsum ex. Curabitur eu
-          venenatis justo. Nullam felis augue, imperdiet at sodales. Nullam
-          felis libero, congue quis ipsum et, lacinia maximus eros. Vestibulum
-          ante ipsum primis in faucibus.
-        </p>
-      )}
-      {author && (
-        <div className="post-card_author mt">
-          <div className="post-card_info">
-            <div className="post-card_by-author">
-              by <a href="#">Breana Flatley</a>
+      <div>
+        {tags && (
+          <div className="post-card_tags mobile">
+            <PostCardTag href="#">Lifestyle</PostCardTag>
+            <PostCardTag href="#">Eco</PostCardTag>
+            <PostCardTag href="#">Health</PostCardTag>
+          </div>
+        )}
+        <a href="#" className="post-card_title">
+          The trick to getting more done is to have the freedom to roam around
+        </a>
+        {description && (
+          <p className="post-card_description">
+            Vel lectus vel velit pellentesque dignissim nec id magna. Cras
+            molestie ornare quam at semper. Proin a ipsum ex. Curabitur eu
+            venenatis justo. Nullam felis augue, imperdiet at sodales. Nullam
+            felis libero, congue quis ipsum et, lacinia maximus eros. Vestibulum
+            ante ipsum primis in faucibus.
+          </p>
+        )}
+        {author && (
+          <div className="post-card_author mt">
+            <div className="post-card_info">
+              <div className="post-card_by-author">
+                by <a href="#">Breana Flatley</a>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

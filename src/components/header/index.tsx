@@ -5,8 +5,10 @@ import "./styles.css";
 const Header = () => {
   return (
     <header className="header">
-      <Logo></Logo>
-      <div className="header-navlink">
+      <div className="header-logo">
+        <Logo></Logo>
+      </div>
+      <div className="header-navlink header-navlink_item--pc">
         <a href="#" className="header-navlink_item">
           Demos
         </a>
@@ -53,12 +55,32 @@ const Header = () => {
           />
         </svg>
       </div>
-      <a href="#" className="header-navlink_item">
-        Sign in
-      </a>
-      <a href="/" className="header-navlink_item--btn">
-        <Button className="btn btn-primary">Become a subcriber</Button>
-      </a>
+      <div className="header-navlink_item--pc">
+        <a href="#" className="header-navlink_item">
+          Sign in
+        </a>
+        <a href="/" className="header-navlink_item--btn">
+          <Button className="btn btn-primary">Become a subcriber</Button>
+        </a>
+      </div>
+      <div className="header-navlink_item--icon mobile">
+        <svg
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+          width={24}
+          height={24}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
+          />
+        </svg>
+      </div>
     </header>
   );
 };

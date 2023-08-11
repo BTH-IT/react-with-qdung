@@ -12,6 +12,7 @@
   background-color: #f1f1f3;
   text-decoration: none;
   color: black;
+  white-space: wrap;
 }
 
 .post-card_tag:hover {

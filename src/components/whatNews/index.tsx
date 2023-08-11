@@ -79,10 +79,10 @@ const WhatNews = () => {
             <Button className="btn btn-secondary">Subcribe</Button>
           </div>
         </div>
-        <div style={{ gridColumn: "auto/span 4" }}>
+        <div className="what-new_post-item">
           <PostCard></PostCard>
         </div>
-        <div style={{ gridColumn: "auto/span 4" }}>
+        <div className="what-new_post-item">
           <PostCard></PostCard>
         </div>
       </div>

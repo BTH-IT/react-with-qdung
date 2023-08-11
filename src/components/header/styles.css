@@ -31,3 +31,21 @@
   margin-left: 18px;
   cursor: pointer;
 }
+
+.header-navlink_item--icon.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 1080px) {
+  .header .header-logo {
+    flex: 1;
+  }
+
+  .header-navlink_item--pc {
+    display: none;
+  }
+
+  .header-navlink_item--icon.mobile {
+    display: block;
+  }
+}

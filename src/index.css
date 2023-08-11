@@ -53,3 +53,10 @@ table {
   padding-right: 63px;
   padding-left: 63px;
 }
+
+@media screen and (max-width: 480px) {
+  .container {
+		padding-right: 10px;
+    padding-left: 10px;
+  }
+}

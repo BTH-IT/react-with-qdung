@@ -91,3 +91,27 @@
   opacity: 0.85;
   font-size: 0.9rem;
 }
+
+@media screen and (max-width: 767px) {
+  .footer-top {
+    gap: 10px;
+  }
+
+  .footer-top_left {
+    grid-column: auto/span 12;
+  }
+
+  .footer-top_right {
+    grid-column: auto/span 12;
+  }
+
+  .footer-bottom_list {
+    grid-column: auto/span 4;
+  }
+}
+
+@media screen and (max-width: 567px) {
+  .footer-bottom_list {
+    grid-column: auto/span 6;
+  }
+}

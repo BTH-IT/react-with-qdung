@@ -3,3 +3,9 @@
   align-items: center;
   gap: 20px;
 }
+
+@media screen and (max-width: 767px) {
+  .you-liked_list {
+    flex-direction: column;
+  }
+}

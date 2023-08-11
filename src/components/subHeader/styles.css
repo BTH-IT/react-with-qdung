@@ -10,3 +10,15 @@
 .sub-header_title span {
   font-weight: 700;
 }
+
+@media screen and (max-width: 767px) {
+  .sub-header_title {
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .sub-header_title {
+    font-size: 2rem;
+  }
+}

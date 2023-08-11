@@ -3,7 +3,9 @@
   border-radius: 22px;
   background-color: #f9c345;
   text-decoration: none;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .feature-card_image {

@@ -42,3 +42,43 @@
 .featured-posts_footer:hover a {
   text-decoration: underline;
 }
+
+@media screen and (max-width: 1280px) {
+  .featured-posts_list {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .featuredposts_title {
+    font-size: 1.4rem;
+    width: 100%;
+    margin: 0;
+    margin-bottom: 50px;
+  }
+
+  .feature-card_image {
+    max-height: 100%;
+    height: unset;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .featured-posts_container p{
+    font-size: 1.2rem;
+  }
+
+  .feature-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .featured-posts_container {
+    padding: 35px 10px 25px;
+  }
+
+  .feature-card {
+    flex-direction: row;
+  }
+
+  .feature-card_by-author {
+    display: none;
+  }
+}
