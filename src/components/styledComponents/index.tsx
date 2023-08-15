@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import Card, { CardProps } from "./components/Card";
 import styled from "styled-components";
 
