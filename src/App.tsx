@@ -1,14 +1,9 @@
-import AppRoutes from "./Routes";
-
-export interface ITodo {
-  id: string;
-  value: string;
-}
+import HomePage from "./pages/HomePage";
 
 function App() {
   return (
     <div className="container">
-      <AppRoutes></AppRoutes>
+      <HomePage></HomePage>
     </div>
   );
 }
