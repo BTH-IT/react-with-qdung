@@ -24,9 +24,7 @@ function App() {
 
   const [meta, setMeta] = useState<IMeta>({
     _limit: parseInt(searchParams.get("_limit") || "8"),
-    _totalRows:
-      parseInt(searchParams.get("_limit") || "8") *
-      parseInt(searchParams.get("_page") || "1"),
+    _totalRows: 0,
     _page: parseInt(searchParams.get("_page") || "1"),
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
