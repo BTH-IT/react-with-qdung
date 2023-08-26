@@ -54,6 +54,10 @@ table {
   margin: 35px auto;
   padding-right: 63px;
   padding-left: 63px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
 }
 
 
