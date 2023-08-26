@@ -13,6 +13,8 @@ export default function FormFilter({ getProduct }: any) {
       searchParams.set("name", valueSearch);
 
       navigate("?" + searchParams.toString(), { replace: true });
+
+      getProduct({ name: valueSearch });
     }
   }, [valueSearch]);
 

@@ -29,12 +29,14 @@ function App() {
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  async function getProduct(metaProps?: IMeta) {
+  async function getProduct(metaProps?: IMeta & { name?: string }) {
     try {
       setIsLoading(true);
-      const res = await productApi.getAll(metaProps || meta);
-
-      console.log(res.pagination);
+      const query = metaProps || meta;
+      const res = await productApi.getAll({
+        ...query,
+        name,
+      });
 
       setProduct(res.data);
       setMeta(res.pagination);
