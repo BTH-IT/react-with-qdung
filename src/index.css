@@ -2,7 +2,7 @@
    v2.0 | 20110126
    License: none (public domain)
 */
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -23,7 +23,7 @@ time, mark, audio, video {
 	font-size: 10px;
 	font: inherit;
 	vertical-align: baseline;
-	font-family: 'Fraunces', serif;
+	font-family: 'Work Sans', sans-serif;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -54,12 +54,11 @@ table {
   margin: 35px auto;
   padding-right: 63px;
   padding-left: 63px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
 }
 
+body {
+  background: #1C121F;
+}
 
 
 @media screen and (max-width: 480px) {
