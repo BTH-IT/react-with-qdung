@@ -3,13 +3,17 @@ import FormFilter from "./components/FormFilter";
 import CartItem, { ICardItemProps } from "./components/cartItem";
 import productApi from "./services/productService";
 import useDidMount from "./hooks/useDidMount";
-import { Col, Pagination, Row, Spin } from "antd";
+import { Col, Pagination, Row, Spin, Slider } from "antd";
 import * as Styled from "./styles";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+
 export interface IMeta {
   _limit: number;
   _totalRows: number;
   _page: number;
+  title_like?: string;
+  price_gte?: number;
+  price_lte?: number;
 }
 
 export interface IResponse<T> {
@@ -29,13 +33,13 @@ function App() {
   });
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  async function getProduct(metaProps?: IMeta & { name?: string }) {
+  async function getProduct(metaProps?: IMeta) {
     try {
       setIsLoading(true);
-      const query = metaProps || meta;
+      const { _totalRows, ...query } = metaProps || meta;
+
       const res = await productApi.getAll({
         ...query,
-        name,
       });
 
       setProduct(res.data);
@@ -48,20 +52,32 @@ function App() {
   }
 
   useDidMount(() => {
-    getProduct();
+    if (searchParams.has("price_lte") && searchParams.has("price_gte")) {
+      setMeta({
+        ...meta,
+        price_lte: parseInt(searchParams.get("price_lte") || "0"),
+        price_gte: parseInt(searchParams.get("price_gte") || "0"),
+      });
+    }
+
+    if (searchParams.has("title_like")) {
+      setMeta({
+        ...meta,
+        title_like: searchParams.get("title_like") || "",
+      });
+    }
   });
 
   useEffect(() => {
     searchParams.set("_limit", meta._limit + "");
     searchParams.set("_page", meta._page + "");
     navigate("?" + searchParams.toString(), { replace: true });
-  }, [searchParams, meta, navigate]);
+  }, [meta._limit, meta._page, navigate, searchParams]);
 
   return (
     <div className="container">
       <>
-        <FormFilter getProduct={() => getProduct()} />
-
+        <FormFilter getProduct={getProduct} meta={meta} />
         {isLoading ? (
           <Styled.LoadingWrapper>
             <Spin />
@@ -70,12 +86,16 @@ function App() {
           <Row gutter={12}>
             {products.map((product) => (
               <Col key={product.title} xs={6}>
-                <CartItem title={product.title} image={product?.image} />
+                <CartItem
+                  title={product.title}
+                  image={product?.image}
+                  price={product.price}
+                />
               </Col>
             ))}
           </Row>
         )}
-        {products.length > 0 && !isLoading && (
+        {products.length > 0 && meta._totalRows > meta._limit && !isLoading && (
           <Pagination
             defaultPageSize={meta._limit}
             total={meta._totalRows}

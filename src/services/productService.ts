@@ -10,6 +10,9 @@ const productApi = {
   async getAll(params?: any): Promise<IResponse<ICardItemProps>> {
     return await axiosClient.get("/products", { params });
   },
+  async getProductList(params?: any): Promise<ICardItemProps[]> {
+    return await axiosClient.get("/products", { params });
+  },
 };
 
 export default productApi;

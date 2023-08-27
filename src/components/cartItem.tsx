@@ -5,9 +5,10 @@ const { Meta } = Card;
 export interface ICardItemProps {
   title: string;
   image: string;
+  price: number;
 }
 
-export default function CartItem({ title, image }: ICardItemProps) {
+export default function CartItem({ title, image, price }: ICardItemProps) {
   return (
     <>
       <Card
@@ -16,7 +17,7 @@ export default function CartItem({ title, image }: ICardItemProps) {
         style={{ width: "100%", marginBottom: "12px" }}
         cover={<Styled.ImageCard alt="example" src={image} />}
       >
-        <Meta title={title} />
+        <Meta title={title} description={<span>{price} $</span>} />
       </Card>
     </>
   );
