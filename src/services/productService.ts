@@ -1,5 +1,5 @@
 import { IResponse } from "../App";
-import { ICardItemProps } from "./../components/cartItem";
+import { ICardItemProps } from "../components/cardItem";
 import axiosClient from "./axiosClient";
 
 const productApi = {
