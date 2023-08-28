@@ -6,16 +6,17 @@ export const Header = styled.header`
   position: fixed;
   align-items: center;
   justify-content: space-between;
-  z-index: 1;
+  z-index: 3;
   top: 0;
   left: 0;
   right: 0;
   width: 100%;
   max-width: 1367px;
-  margin: 0 auto;
+  margin-top: 26px;
+  margin-left: auto;
+  margin-right: auto;
   height: 100%;
   max-height: 66px;
-  padding: 26px 0;
 `;
 
 export const Logo = styled.div`
