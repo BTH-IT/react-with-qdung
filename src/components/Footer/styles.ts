@@ -7,8 +7,8 @@ export const FooterWrapper = styled.footer`
 `;
 
 export const FooterLogo = styled.div`
-  width: 100px;
-  height: 100px;
+  width: 125px;
+  height: 125px;
   flex-shrink: 0;
 
   img {

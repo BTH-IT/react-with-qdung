@@ -1,4 +1,3 @@
-import React from "react";
 import * as Styled from "./styles";
 import { ButtonCustom, RowCustom } from "../../lib/antdCustom";
 import elipse from "../../assets/elipse.svg";
