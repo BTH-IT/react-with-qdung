@@ -8,10 +8,18 @@ import productApi from "../../services/productService";
 import useDidMount from "../../hooks/useDidMount";
 import FormFilter from "../../components/FormFilter";
 import * as Styled from "./styles";
+import { useAppDispatch, useAppSelector } from "../../utils/reduxHelper";
+import {
+  getCart,
+  setProduct,
+  setProductFall,
+  setProductRequest,
+} from "../../redux/action";
 
 function HomePage() {
-  const [products, setProduct] = useState<ICardItemProps[]>([]);
-  const [cartList, setCartList] = useState<ICartItemProps[]>([]);
+  const dispatch = useAppDispatch();
+  const productsReducer = useAppSelector((state) => state.products);
+  const cartsReducer = useAppSelector((state) => state.carts);
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
@@ -20,23 +28,21 @@ function HomePage() {
     _totalRows: 0,
     _page: parseInt(searchParams.get("_page") || "1"),
   });
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   async function getProduct(metaProps?: IMeta) {
     try {
-      setIsLoading(true);
+      dispatch(setProductRequest());
       const { _totalRows, ...query } = metaProps || meta;
 
       const res = await productApi.getAll({
         ...query,
       });
 
-      setProduct(res.data);
-      setMeta(res.pagination);
+      dispatch(setProduct(res));
     } catch (error) {
       alert("error");
     } finally {
-      setIsLoading(false);
+      dispatch(setProductFall());
     }
   }
 
@@ -44,7 +50,7 @@ function HomePage() {
     try {
       const cartList = await cartApi.getCartList();
 
-      setCartList(cartList);
+      dispatch(getCart({ data: cartList }));
     } catch (error) {
       alert("error");
     }
@@ -90,7 +96,9 @@ function HomePage() {
             />
           </Col>
           <Col xs={12}>
-            <p style={{ textAlign: "center" }}>Cart: {cartList.length}</p>
+            <p style={{ textAlign: "center" }}>
+              Cart: {cartsReducer.data.length}
+            </p>
             <Link
               style={{
                 textAlign: "center",
@@ -103,36 +111,34 @@ function HomePage() {
             </Link>
           </Col>
         </Row>
-        {isLoading ? (
+        {productsReducer.isLoading ? (
           <Styled.LoadingWrapper>
             <Spin />
           </Styled.LoadingWrapper>
         ) : (
           <Styled.RowWrapper gutter={12}>
-            {products.map((product) => (
+            {productsReducer.data.map((product) => (
               <Col key={product.title} xs={6}>
-                <CardItem
-                  product={product}
-                  cartList={cartList}
-                  getCartList={getCartList}
-                />
+                <CardItem product={product} getCartList={getCartList} />
               </Col>
             ))}
           </Styled.RowWrapper>
         )}
-        {products.length > 0 && meta._totalRows > meta._limit && !isLoading && (
-          <Pagination
-            defaultPageSize={meta._limit}
-            total={meta._totalRows}
-            onChange={(page) =>
-              getProduct({
-                ...meta,
-                _page: page,
-              })
-            }
-            defaultCurrent={meta._page}
-          />
-        )}
+        {productsReducer.data.length > 0 &&
+          meta._totalRows > meta._limit &&
+          !productsReducer.isLoading && (
+            <Pagination
+              defaultPageSize={meta._limit}
+              total={meta._totalRows}
+              onChange={(page) =>
+                getProduct({
+                  ...meta,
+                  _page: page,
+                })
+              }
+              defaultCurrent={meta._page}
+            />
+          )}
       </>
     </div>
   );

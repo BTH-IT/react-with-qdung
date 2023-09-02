@@ -2,6 +2,7 @@ import { Button, Card, Skeleton } from "antd";
 import * as Styled from "./styles";
 import cartApi, { ICartItemProps } from "../services/cartService";
 import { showAlertNotice } from "../utils/notification";
+import { useAppSelector } from "../utils/reduxHelper";
 const { Meta } = Card;
 
 export interface ICardItemProps {
@@ -19,16 +20,16 @@ export interface ICardItemProps {
 
 export default function CardItem({
   product,
-  cartList,
   getCartList,
 }: {
   product: ICardItemProps;
-  cartList: any[];
   getCartList: () => void;
 }) {
+  const cartsReducer = useAppSelector((state) => state.carts);
+
   const handleAddToCart = async () => {
     try {
-      const existedProduct: ICartItemProps | undefined = cartList.find(
+      const existedProduct: ICartItemProps | undefined = cartsReducer.data.find(
         (cart) => cart.productId === product.id
       );
 
