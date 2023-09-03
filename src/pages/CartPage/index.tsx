@@ -6,10 +6,13 @@ import CartItem from "../../components/cartItem";
 import { Link } from "react-router-dom";
 import { RowWrapper } from "../HomePage/styles";
 import { showAlertNotice } from "../../utils/notification";
+import { useAppDispatch, useAppSelector } from "../../utils/reduxHelper";
+import { getCart } from "../../redux/action";
 
 const CartPage = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [cartList, setCartList] = useState<ICartItemProps[]>([]);
+  const cartReducer = useAppSelector((state) => state.carts);
+  const dispatch = useAppDispatch();
   const [deleteCartId, setDeleteCartId] = useState<string>("");
 
   const showModal = () => {
@@ -20,7 +23,7 @@ const CartPage = () => {
     try {
       const cartList = await cartApi.getCartList();
 
-      setCartList(cartList);
+      dispatch(getCart({ data: cartList }));
     } catch (error) {
       alert("error");
     }
@@ -56,7 +59,8 @@ const CartPage = () => {
           marginTop: "12px",
         }}
       >
-        Total: {cartList.reduce((p, c) => p + c.count * c.price, 0).toFixed(2)}
+        Total:{" "}
+        {cartReducer.data.reduce((p, c) => p + c.count * c.price, 0).toFixed(2)}
       </div>
       <Link
         style={{
@@ -71,8 +75,8 @@ const CartPage = () => {
         Go to home
       </Link>
       <RowWrapper gutter={12}>
-        {cartList.map((cart) => (
-          <Col key={cart.title} xs={6}>
+        {cartReducer.data.map((cart, idx) => (
+          <Col key={cart.title + idx} xs={6}>
             <CartItem
               cart={cart}
               showModal={showModal}

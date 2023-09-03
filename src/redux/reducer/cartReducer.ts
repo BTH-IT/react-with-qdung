@@ -16,10 +16,10 @@ const reducerInit: CartStateType = {
 
 export default function (state = reducerInit, action: ActionType<any>) {
   switch (action.type) {
-    case SUCCESS(CART_ACTION_TYPE.GET_CART):
+    case CART_ACTION_TYPE.GET_CART:
       return {
         ...state,
-        data: [...action.payload],
+        data: [...action.payload.data],
       };
     default:
       return state;
