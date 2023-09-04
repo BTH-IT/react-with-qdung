@@ -3,7 +3,7 @@ import { ICardItemProps } from "../../components/cartItem";
 import { ActionType } from "../reducer/productReducer";
 import { FALL, PRODUCT_ACTION_TYPE, REQUEST, SUCCESS } from "./constant";
 
-export const setProduct = (params: {
+export const getProduct = (params: {
   data: ICardItemProps[];
   pagination: IMeta;
 }): ActionType<{
@@ -14,10 +14,15 @@ export const setProduct = (params: {
   payload: params,
 });
 
-export const setProductRequest = (): ActionType<any> => ({
+export const getProductRequest = (): ActionType<any> => ({
   type: REQUEST(PRODUCT_ACTION_TYPE.GET_PRODUCT),
 });
 
-export const setProductFall = (): ActionType<any> => ({
+export const getProductFall = (): ActionType<any> => ({
   type: FALL(PRODUCT_ACTION_TYPE.GET_PRODUCT),
+});
+
+export const setMeta = (params: IMeta): ActionType<any> => ({
+  type: PRODUCT_ACTION_TYPE.SET_META,
+  payload: params,
 });

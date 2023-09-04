@@ -1,5 +1,6 @@
 export const PRODUCT_ACTION_TYPE = {
   GET_PRODUCT: "GET_PRODUCT",
+  SET_META: "SET_META",
 };
 
 export const CART_ACTION_TYPE = {

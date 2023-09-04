@@ -11,9 +11,10 @@ import * as Styled from "./styles";
 import { useAppDispatch, useAppSelector } from "../../utils/reduxHelper";
 import {
   getCart,
-  setProduct,
-  setProductFall,
-  setProductRequest,
+  setMeta,
+  getProduct,
+  getProductFall,
+  getProductRequest,
 } from "../../redux/action";
 
 function HomePage() {
@@ -23,26 +24,20 @@ function HomePage() {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
-  const [meta, setMeta] = useState<IMeta>({
-    _limit: parseInt(searchParams.get("_limit") || "8"),
-    _totalRows: 0,
-    _page: parseInt(searchParams.get("_page") || "1"),
-  });
-
-  async function getProduct(metaProps?: IMeta) {
+  async function setProduct(metaProps?: IMeta) {
     try {
-      dispatch(setProductRequest());
-      const { _totalRows, ...query } = metaProps || meta;
+      dispatch(getProductRequest());
+      const { _totalRows, ...query } = metaProps || productsReducer.meta;
 
       const res = await productApi.getAll({
         ...query,
       });
 
-      dispatch(setProduct(res));
+      dispatch(getProduct(res));
     } catch (error) {
       alert("error");
     } finally {
-      dispatch(setProductFall());
+      dispatch(getProductFall());
     }
   }
 
@@ -58,28 +53,32 @@ function HomePage() {
 
   useDidMount(() => {
     if (searchParams.has("price_lte") && searchParams.has("price_gte")) {
-      setMeta({
-        ...meta,
-        price_lte: parseInt(searchParams.get("price_lte") || "0"),
-        price_gte: parseInt(searchParams.get("price_gte") || "0"),
-      });
+      dispatch(
+        setMeta({
+          ...productsReducer.meta,
+          price_lte: parseInt(searchParams.get("price_lte") || "0"),
+          price_gte: parseInt(searchParams.get("price_gte") || "0"),
+        })
+      );
     }
 
     if (searchParams.has("title_like")) {
-      setMeta({
-        ...meta,
-        title_like: searchParams.get("title_like") || "",
-      });
+      dispatch(
+        setMeta({
+          ...productsReducer.meta,
+          title_like: searchParams.get("title_like") || "",
+        })
+      );
     }
 
     getCartList();
   });
 
   useEffect(() => {
-    searchParams.set("_limit", meta._limit + "");
-    searchParams.set("_page", meta._page + "");
+    searchParams.set("_limit", productsReducer.meta._limit + "");
+    searchParams.set("_page", productsReducer.meta._page + "");
     navigate("?" + searchParams.toString(), { replace: true });
-  }, [meta._limit, meta._page]);
+  }, [productsReducer.meta._limit, productsReducer.meta._page]);
 
   return (
     <div className="container">
@@ -87,9 +86,9 @@ function HomePage() {
         <Row gutter={20} align={"middle"} style={{ marginBottom: "20px" }}>
           <Col xs={12}>
             <FormFilter
-              getProduct={(params: any) =>
-                getProduct({
-                  ...meta,
+              setProduct={(params: any) =>
+                setProduct({
+                  ...productsReducer.meta,
                   ...params,
                 })
               }
@@ -125,18 +124,18 @@ function HomePage() {
           </Styled.RowWrapper>
         )}
         {productsReducer.data.length > 0 &&
-          meta._totalRows > meta._limit &&
+          productsReducer.meta._totalRows > productsReducer.meta._limit &&
           !productsReducer.isLoading && (
             <Pagination
-              defaultPageSize={meta._limit}
-              total={meta._totalRows}
+              defaultPageSize={productsReducer.meta._limit}
+              total={productsReducer.meta._totalRows}
               onChange={(page) =>
-                getProduct({
-                  ...meta,
+                setProduct({
+                  ...productsReducer.meta,
                   _page: page,
                 })
               }
-              defaultCurrent={meta._page}
+              defaultCurrent={productsReducer.meta._page}
             />
           )}
       </>

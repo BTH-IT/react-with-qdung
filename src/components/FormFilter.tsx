@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import useDidMount from "../hooks/useDidMount";
 import productApi from "../services/productService";
 
-export default function FormFilter({ getProduct }: any) {
+export default function FormFilter({ setProduct }: any) {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [valueSearch, setValueSearch] = useState<string>(
@@ -31,7 +31,7 @@ export default function FormFilter({ getProduct }: any) {
         searchParams.set("price_gte", sliderValue[0] + "");
         searchParams.set("price_lte", sliderValue[1] + "");
 
-        await getProduct({
+        await setProduct({
           title_like: valueSearch,
           price_gte: sliderValue[0],
           price_lte: sliderValue[1],
@@ -40,7 +40,7 @@ export default function FormFilter({ getProduct }: any) {
         searchParams.delete("price_gte");
         searchParams.delete("price_lte");
 
-        await getProduct({
+        await setProduct({
           title_like: valueSearch,
         });
       }
