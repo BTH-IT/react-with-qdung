@@ -1,24 +1,23 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import AddInput from "../AddInput";
-import { ITodo } from "../../App";
 import { v4 as uuidv4 } from "uuid";
 import TodoItem from "../TodoItem";
+import { useAppDispatch, useAppSelector } from "../../utils/redux-helper";
+import { selectTodo } from "../../redux/todos/todoSlice";
+import { fetchTodos } from "../../redux/todos/todoThunk";
 
 const TodoPage = () => {
-  const [data, setData] = useState<ITodo[]>(
-    JSON.parse(localStorage.getItem("todoList") || "[]")
-  );
+  const { data } = useAppSelector(selectTodo);
+  const dispatch = useAppDispatch();
 
   const handleAddTodoList = (value: string) => {
     const todo = {
       id: uuidv4(),
       value,
+      isDone: false,
     };
 
-    const newData = [...data, todo];
-
-    localStorage.setItem("todoList", JSON.stringify(newData));
-    setData(newData);
+    dispatch(fetchTodos());
   };
 
   const handleUpdateTodoItem = (e: FormEvent<HTMLFormElement>, id: string) => {
@@ -40,14 +39,12 @@ const TodoPage = () => {
       return item;
     });
 
-    localStorage.setItem("todoList", JSON.stringify(newData));
-    setData(newData);
+    // setData(newData);
   };
 
   const handleRemoveTodoItem = (id: string) => {
     const newData = data.filter((item) => item.id !== id);
-    localStorage.setItem("todoList", JSON.stringify(newData));
-    setData(newData);
+    // setData(newData);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -60,6 +57,12 @@ const TodoPage = () => {
     handleAddTodoList(value);
     input.value = "";
   };
+
+  useEffect(() => {
+    dispatch(fetchTodos());
+  }, []);
+
+  console.log(data);
 
   return (
     <div className="flex flex-col gap-3">

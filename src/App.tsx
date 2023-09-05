@@ -3,6 +3,7 @@ import AppRoutes from "./Routes";
 export interface ITodo {
   id: string;
   value: string;
+  isDone: boolean;
 }
 
 function App() {
