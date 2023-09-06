@@ -102,6 +102,7 @@ const TodoItem = ({ todo }: { todo: ITodo }) => {
             <TrashIcon
               className="w-6 h-6 cursor-pointer"
               onClick={() => {
+                alert("Are you sure");
                 dispatch(deleteTodoThunk(todo.id));
               }}
             ></TrashIcon>
