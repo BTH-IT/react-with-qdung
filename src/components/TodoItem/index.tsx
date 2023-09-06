@@ -7,8 +7,8 @@ import {
   TrashIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
-import { useAppDispatch } from "../../utils/redux-helper";
-import { deleteTodoThunk, updateTodoThunk } from "../../redux/todos/todoThunk";
+import { useAppDispatch } from "../../app/hookSaga";
+import { deleteTodo, updateTodo } from "../../redux/todos/todoSlice";
 
 const StyledTodoItem = styled.li<{ isdone: 1 | 0 }>`
   display: flex;
@@ -39,7 +39,7 @@ const TodoItem = ({ todo }: { todo: ITodo }) => {
     setIsDone(true);
 
     dispatch(
-      updateTodoThunk({
+      updateTodo({
         ...todo,
         isDone: true,
       })
@@ -56,7 +56,7 @@ const TodoItem = ({ todo }: { todo: ITodo }) => {
               e.preventDefault();
 
               dispatch(
-                updateTodoThunk({
+                updateTodo({
                   ...todo,
                   value,
                 })
@@ -102,7 +102,8 @@ const TodoItem = ({ todo }: { todo: ITodo }) => {
             <TrashIcon
               className="w-6 h-6 cursor-pointer"
               onClick={() => {
-                dispatch(deleteTodoThunk(todo.id));
+                alert("Are you sure");
+                dispatch(deleteTodo(todo.id));
               }}
             ></TrashIcon>
           </div>

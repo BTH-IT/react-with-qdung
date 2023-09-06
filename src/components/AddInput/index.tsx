@@ -1,8 +1,8 @@
 import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { useAppDispatch } from "../../utils/redux-helper";
-import { addTodoThunk } from "../../redux/todos/todoThunk";
 import { v4 as uuidv4 } from "uuid";
 import { FormEvent, useState } from "react";
+import { useAppDispatch } from "../../app/hookSaga";
+import { addTodo } from "../../redux/todos/todoSlice";
 
 const AddInput = () => {
   const dispatch = useAppDispatch();
@@ -17,7 +17,7 @@ const AddInput = () => {
       isDone: false,
     };
 
-    dispatch(addTodoThunk(todo));
+    dispatch(addTodo(todo));
     setValue("");
   };
 

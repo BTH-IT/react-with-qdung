@@ -1,16 +1,15 @@
 import { useEffect } from "react";
 import AddInput from "../AddInput";
 import TodoItem from "../TodoItem";
-import { useAppDispatch, useAppSelector } from "../../utils/redux-helper";
-import { selectTodo } from "../../redux/todos/todoSlice";
-import { fetchTodos } from "../../redux/todos/todoThunk";
+import { fetchTodosPending, selectTodo } from "../../redux/todos/todoSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hookSaga";
 
 const TodoPage = () => {
   const { data } = useAppSelector(selectTodo);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchTodos());
+    dispatch(fetchTodosPending());
   }, []);
 
   return (
