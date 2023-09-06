@@ -18,7 +18,7 @@ export const fetchTodoById = createAsyncThunk(
   "todos/getTodoById",
   async (id: string, thunkAPI) => {
     try {
-      const res = await fetch("http://localhost:4444/api/todos/" + id);
+      const res = await todoApi.getTodoById(id);
       return res;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
@@ -30,12 +30,8 @@ export const addTodoThunk = createAsyncThunk(
   "todos/addTodo",
   async (todo: ITodo, thunkAPI) => {
     try {
-      const res = await fetch("http://localhost:4444/api/todos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(todo),
-      });
-      return res;
+      await todoApi.createTodo(todo);
+      return todo;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -46,12 +42,8 @@ export const updateTodoThunk = createAsyncThunk(
   "todos/updateTodo",
   async (todo: ITodo, thunkAPI) => {
     try {
-      const res = await fetch("http://localhost:4444/api/todos", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(todo),
-      });
-      return res;
+      await todoApi.updateTodo(todo);
+      return todo;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }
@@ -62,10 +54,8 @@ export const deleteTodoThunk = createAsyncThunk(
   "todos/deleteTodo",
   async (id: string, thunkAPI) => {
     try {
-      const res = await fetch("http://localhost:4444/api/todos/" + id, {
-        method: "DELETE",
-      });
-      return res;
+      await todoApi.deleteTodo(id);
+      return id;
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
     }

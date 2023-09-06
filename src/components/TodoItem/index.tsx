@@ -1,17 +1,21 @@
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { ITodo } from "../../App";
 import styled from "styled-components";
 import {
+  CheckIcon,
   PencilSquareIcon,
   TrashIcon,
   XMarkIcon,
 } from "@heroicons/react/24/solid";
+import { useAppDispatch } from "../../utils/redux-helper";
+import { deleteTodoThunk, updateTodoThunk } from "../../redux/todos/todoThunk";
 
-const StyledTodoItem = styled.li`
+const StyledTodoItem = styled.li<{ isdone: 1 | 0 }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border: 1px solid black;
+  border: 1px solid ${({ isdone }) => (isdone ? "#4ade80" : "black")};
+  background-color: ${({ isdone }) => (isdone ? "#d1fae5" : "transparent")};
   border-radius: 6px;
   padding: 10px;
   gap: 10px;
@@ -25,29 +29,48 @@ const StyledTodoItem = styled.li`
   }
 `;
 
-interface ITodoItem extends ITodo {
-  handleUpdate: (e: FormEvent<HTMLFormElement>, id: string) => void;
-  handleRemove: (id: string) => void;
-}
-
-const TodoItem = (props: ITodoItem) => {
+const TodoItem = ({ todo }: { todo: ITodo }) => {
   const [edit, setEdit] = useState(false);
+  const [isDone, setIsDone] = useState(todo.isDone);
+  const [value, setValue] = useState(todo.value);
+  const dispatch = useAppDispatch();
+
+  const handleDone = () => {
+    setIsDone(true);
+
+    dispatch(
+      updateTodoThunk({
+        ...todo,
+        isDone: true,
+      })
+    );
+  };
+
   return (
-    <StyledTodoItem>
+    <StyledTodoItem isdone={isDone ? 1 : 0}>
       {edit ? (
         <>
           <form
             className="flex gap-2"
             onSubmit={(e) => {
-              props.handleUpdate(e, props.id);
+              e.preventDefault();
+
+              dispatch(
+                updateTodoThunk({
+                  ...todo,
+                  value,
+                })
+              );
+
               setEdit(false);
             }}
           >
             <input
               type="text"
               className="w-full p-3 transition-all border border-gray-300 rounded-md outline-none focus:border-cyan-500"
-              placeholder="Adding todo..."
-              defaultValue={props.value}
+              placeholder="Updating todo..."
+              defaultValue={value}
+              onChange={(e) => setValue(e.target.value)}
             />
             <button
               type="submit"
@@ -64,15 +87,23 @@ const TodoItem = (props: ITodoItem) => {
         </>
       ) : (
         <>
-          <span>{props.value}</span>
+          <span>{todo.value}</span>
           <div className="flex gap-2 transition-all todo-actions">
+            {!isDone && (
+              <CheckIcon
+                className="w-6 h-6 cursor-pointer"
+                onClick={handleDone}
+              />
+            )}
             <PencilSquareIcon
               className="w-6 h-6 cursor-pointer"
               onClick={() => setEdit((prev) => !prev)}
             ></PencilSquareIcon>
             <TrashIcon
               className="w-6 h-6 cursor-pointer"
-              onClick={() => props.handleRemove(props.id)}
+              onClick={() => {
+                dispatch(deleteTodoThunk(todo.id));
+              }}
             ></TrashIcon>
           </div>
         </>

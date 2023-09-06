@@ -2,7 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 import { ITodo } from "../../App";
-import { fetchTodos } from "./todoThunk";
+import {
+  addTodoThunk,
+  deleteTodoThunk,
+  fetchTodos,
+  updateTodoThunk,
+} from "./todoThunk";
 
 export interface TodoState {
   data: ITodo[];
@@ -17,23 +22,44 @@ const initialState: TodoState = {
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
-  reducers: {
-    getTodos: (state) => {},
-    addTodo: (state, action: PayloadAction<ITodo>) => {
-      state.data = [...state.data, action.payload];
-    },
-    updateTodo: (state) => {},
-    deleteTodo: (state, action: PayloadAction<number>) => {},
-  },
+  reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(fetchTodos.pending, (state) => {
+      state.isLoading = true;
+    });
     builder.addCase(fetchTodos.fulfilled, (state, action) => {
       state.data = [...action.payload];
+      state.isLoading = false;
+    });
+    builder.addCase(fetchTodos.rejected, (state) => {
+      state.isLoading = false;
+    });
+
+    builder.addCase(addTodoThunk.fulfilled, (state, action) => {
+      state.data = [...state.data, action.payload];
+    });
+
+    builder.addCase(updateTodoThunk.fulfilled, (state, action) => {
+      const newData = state.data.map((todo) => {
+        if (todo.id === action.payload.id) {
+          return action.payload;
+        }
+
+        return todo;
+      });
+
+      state.data = [...newData];
+    });
+
+    builder.addCase(deleteTodoThunk.fulfilled, (state, action) => {
+      const newData = state.data.filter((todo) => todo.id !== action.payload);
+      state.data = [...newData];
     });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { getTodos, updateTodo, deleteTodo, addTodo } = todoSlice.actions;
+export const actionsTodo = todoSlice.actions;
 export const selectTodo = (state: RootState) => state.todos;
 const todoReducer = todoSlice.reducer;
 export default todoReducer;

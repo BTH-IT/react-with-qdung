@@ -1,14 +1,24 @@
+import { ITodo } from "./../App";
 import axiosClient from "./axiosClient";
 
 const todoApi = {
-  getTodoById(todoId: string) {
+  async getTodoById(todoId: string) {
     const url = `/todo/${todoId}`;
-    return axiosClient.get(url);
+    return await axiosClient.get(url);
+  },
+  async createTodo(data: ITodo) {
+    const url = `/todos`;
+    return axiosClient.post(url, data);
+  },
+  async updateTodo(data: ITodo) {
+    const url = `/todos/` + data.id;
+    return axiosClient.patch(url, data);
+  },
+  async deleteTodo(id: string) {
+    const url = `/todos/` + id;
+    return axiosClient.delete(url);
   },
   async getAll(params?: any): Promise<any> {
-    return await axiosClient.get("/todos");
-  },
-  async getTodoList(params?: any): Promise<any> {
     return await axiosClient.get("/todos");
   },
 };
