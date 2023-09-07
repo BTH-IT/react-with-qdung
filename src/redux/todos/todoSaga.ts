@@ -2,11 +2,14 @@ import { call, fork, put, take, takeLatest } from "redux-saga/effects";
 import todoApi from "../../services/todoService";
 import {
   addTodo,
+  addTodoSuccess,
   deleteTodo,
+  deleteTodoSuccess,
   fetchTodosFailure,
   fetchTodosPending,
   fetchTodosSuccess,
   updateTodo,
+  updateTodoSuccess,
 } from "./todoSlice";
 import { ITodo } from "../../App";
 import { PayloadAction } from "@reduxjs/toolkit";
@@ -26,6 +29,8 @@ function* watchAddTodo() {
       const action: PayloadAction<ITodo> = yield take(addTodo.type);
 
       yield call(todoApi.createTodo, action.payload);
+
+      yield put(addTodoSuccess(action.payload));
     } catch (error) {
       console.log(error);
     }
@@ -38,6 +43,8 @@ function* watchUpdateTodo() {
       const action: PayloadAction<ITodo> = yield take(updateTodo.type);
 
       yield call(todoApi.updateTodo, action.payload);
+
+      yield put(updateTodoSuccess(action.payload));
     } catch (error) {
       console.log(error);
     }
@@ -50,6 +57,8 @@ function* watchDeleteTodo() {
       const action: PayloadAction<string> = yield take(deleteTodo.type);
 
       yield call(todoApi.deleteTodo, action.payload);
+
+      yield put(deleteTodoSuccess(action.payload));
     } catch (error) {
       console.log(error);
     }

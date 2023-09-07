@@ -26,10 +26,12 @@ export const todoSlice = createSlice({
     fetchTodosPending: (state) => {
       state.isLoading = true;
     },
-    addTodo: (state, action: PayloadAction<ITodo>) => {
+    addTodo: (state, action: PayloadAction<ITodo>) => {},
+    addTodoSuccess: (state, action: PayloadAction<ITodo>) => {
       state.data = [...state.data, action.payload];
     },
-    updateTodo: (state, action: PayloadAction<ITodo>) => {
+    updateTodo: (state, action: PayloadAction<ITodo>) => {},
+    updateTodoSuccess: (state, action: PayloadAction<ITodo>) => {
       const newData = state.data.map((todo) => {
         if (todo.id === action.payload.id) {
           return {
@@ -42,7 +44,8 @@ export const todoSlice = createSlice({
 
       state.data = [...newData];
     },
-    deleteTodo: (state, action: PayloadAction<string>) => {
+    deleteTodo: (state, action: PayloadAction<string>) => {},
+    deleteTodoSuccess: (state, action: PayloadAction<string>) => {
       const newData = state.data.filter((todo) => todo.id !== action.payload);
 
       state.data = [...newData];
@@ -56,8 +59,11 @@ export const {
   fetchTodosFailure,
   fetchTodosPending,
   addTodo,
+  addTodoSuccess,
   updateTodo,
+  updateTodoSuccess,
   deleteTodo,
+  deleteTodoSuccess,
 } = todoSlice.actions;
 export const selectTodo = (state: RootState) => state.todos;
 const todoReducer = todoSlice.reducer;
