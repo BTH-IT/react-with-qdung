@@ -1,5 +1,9 @@
 export const locationSelectList = [
   {
+    value: "",
+    label: "Select location/branch",
+  },
+  {
     value: "1",
     label: "Ho Chi Minh",
   },
@@ -34,6 +38,10 @@ export const sexSelectList = [
 
 export const countrySelectList = [
   {
+    value: "",
+    label: "Select country",
+  },
+  {
     value: "1",
     label: "Vietnam",
   },
@@ -61,6 +69,10 @@ export const countrySelectList = [
 
 export const customerGroupSelectList = [
   {
+    value: "",
+    label: "Select customer group",
+  },
+  {
     value: "1",
     label: "Child",
   },
@@ -75,30 +87,77 @@ export const customerGroupSelectList = [
 ];
 
 const dayList = [
-  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22,
-  23, 24, 25, 26, 272, 82, 29, 30, 31,
+  "Day",
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  21,
+  22,
+  23,
+  24,
+  25,
+  26,
+  272,
+  82,
+  29,
+  30,
+  31,
 ];
 
-export const daySelectList = dayList.map((day) => {
+export const daySelectList = dayList.map((day, idx) => {
+  if (idx === 0)
+    return {
+      value: "",
+      label: day.toString(),
+    };
+
   return {
     value: day.toString(),
     label: day.toString(),
   };
 });
 
-const monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+const monthList = ["Month", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-export const monthSelectList = monthList.map((month) => {
+export const monthSelectList = monthList.map((month, idx) => {
+  if (idx === 0)
+    return {
+      value: "",
+      label: month.toString(),
+    };
+
   return {
     value: month.toString(),
     label: month.toString(),
   };
 });
 
-const handleRenderYearList = () => {
+const handleYearList = () => {
   const date = new Date();
   const currentYear = date.getFullYear();
-  const yearList = [];
+  const yearList = [
+    {
+      value: "",
+      label: "Year",
+    },
+  ];
 
   for (let index = currentYear; index >= currentYear - 200; index--) {
     yearList.push({
@@ -110,4 +169,7 @@ const handleRenderYearList = () => {
   return yearList;
 };
 
-export const yearSelectList = handleRenderYearList();
+export const yearSelectList = handleYearList();
+
+export const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;

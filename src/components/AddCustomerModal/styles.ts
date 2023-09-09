@@ -15,9 +15,7 @@ export const AntdModalCustom = styled(AntdModal)`
   }
 `;
 
-const AntdForm = Form;
-
-export const AntdFormCustom = styled(AntdForm)`
+export const AntdFormCustom = styled.form`
   margin-top: 20px !important;
   margin-bottom: 20px !important;
 
@@ -67,57 +65,36 @@ export const AntdFormCustom = styled(AntdForm)`
   }
 `;
 
-const AntdFormItem = Form.Item;
-
-export const AntdFormItemCustom = styled(AntdFormItem)`
+export const FormItemCustom = styled.div`
   margin-bottom: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 
-  & .ant-row.ant-form-item-row {
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  & .ant-col {
-    flex: 0 0 100%;
-  }
-
-  & .ant-col.ant-form-item-label {
-    text-align: left;
-
-    & label::after,
-    & label::before {
-      display: none !important;
-    }
-  }
-
-  & .ant-input {
+  & input {
     border-radius: 58px;
-    border: 1px solid var(--neutral-30, #e4e4e4);
-    font-size: 1.2rem;
+    border: 1px solid #e4e4e4;
+    font-size: 1.4rem;
+    padding: 4px 11px;
+    line-height: 1.5;
+    outline: none;
   }
 
   & .ant-select-selection-placeholder {
     color: black;
   }
 
-  & .ant-select-single .ant-select-selector {
+  & select {
     border-radius: 58px;
-    border: 1px solid var(--neutral-30, #e4e4e4);
-    font-size: 1.2rem;
-  }
-`;
-
-export const AntdFormItemsCustom = styled(AntdFormItemCustom)`
-  & .ant-form-item {
-    margin: 0;
+    border: 1px solid #e4e4e4;
+    font-size: 1.4rem;
+    padding: 7.5px 12px;
+    line-height: 2;
+    outline: none;
   }
 
-  & .ant-form-item-control-input-content {
-    display: flex;
-    gap: 10px;
-
-    & .ant-form-item {
-      width: 100%;
-    }
+  & p {
+    color: red;
+    min-height: 22px;
   }
 `;

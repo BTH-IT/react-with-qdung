@@ -4,11 +4,15 @@ import {
   daySelectList,
   locationSelectList,
   monthSelectList,
+  phoneRegExp,
   sexSelectList,
   yearSelectList,
 } from "../../utils/constant";
 import { Button, Row, Col, Input, Select, Form } from "antd";
 import * as Styled from "./styles";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
 
 interface AddCustomerModalProps {
   open: boolean;
@@ -16,14 +20,68 @@ interface AddCustomerModalProps {
   setIsSuccess: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
+const initialValue = {
+  name: "",
+  phoneNumber: "",
+  email: "",
+  sex: "1",
+  deliveryArea: "",
+  building: "",
+  street: "",
+  city: "",
+  day: "",
+  month: "",
+  year: "",
+  customerGroup: "",
+  location: "",
+  country: "",
+};
+
+const schema = yup
+  .object({
+    name: yup.string().required("This field is required"),
+    phoneNumber: yup
+      .string()
+      .required()
+      .matches(phoneRegExp, "Phone number is not valid"),
+    email: yup
+      .string()
+      .required("This field is required")
+      .email("This field must be an email"),
+    sex: yup.string().required("This field is required"),
+    deliveryArea: yup.string().required("This field is required"),
+    building: yup.string().required("This field is required"),
+    street: yup.string().required("This field is required"),
+    city: yup.string().required("This field is required"),
+    day: yup.string().required("This field is required"),
+    month: yup.string().required("This field is required"),
+    year: yup.string().required("This field is required"),
+    customerGroup: yup.string().required("This field is required"),
+    location: yup.string().required("This field is required"),
+    country: yup.string().required("This field is required"),
+  })
+  .required();
+
 const AddCustomerModal = ({
   open,
   setOpen,
   setIsSuccess,
 }: AddCustomerModalProps) => {
-  const [form] = Form.useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+    getValues,
+  } = useForm({
+    defaultValues: initialValue,
+    resolver: yupResolver(schema),
+    mode: "onChange",
+  });
 
-  const onFinish = () => {
+  const onSubmit = (value: any) => {
+    if (!isValid) return;
+
+    console.log(value);
     setOpen(false);
     setIsSuccess(true);
   };
@@ -35,175 +93,177 @@ const AddCustomerModal = ({
       open={open}
       onCancel={() => setOpen(false)}
     >
-      <Styled.AntdFormCustom
-        form={form}
-        onFinish={onFinish}
-        onFinishFailed={() => setIsSuccess(false)}
-        initialValues={{
-          name: "",
-          phoneNumber: "",
-          email: "",
-          sex: "Male",
-          deliveryArea: "",
-          building: "",
-          street: "",
-          city: "",
-        }}
-      >
+      <Styled.AntdFormCustom onSubmit={handleSubmit(onSubmit)}>
         <Row gutter={10}>
           <Col xs={12}>
-            <Styled.AntdFormItemCustom
-              label="Name"
-              name="name"
-              rules={[
-                { required: true, message: "This field is a required field" },
-              ]}
-            >
-              <Input placeholder="Enter name"></Input>
-            </Styled.AntdFormItemCustom>
-            <Styled.AntdFormItemCustom
-              label="Phone number"
-              name="phoneNumber"
-              rules={[
-                () => ({
-                  validator(_, value) {
-                    if (!value)
-                      return Promise.reject(
-                        new Error("This field is a required field")
-                      );
-                    const phoneRegex = new RegExp(
-                      "(84|0[3|5|7|8|9])+([0-9]{8})"
-                    );
-                    if (phoneRegex.test(value)) {
-                      return Promise.resolve();
-                    }
-                    return Promise.reject(
-                      new Error("This field must be a phone number")
-                    );
-                  },
-                }),
-              ]}
-            >
-              <Input placeholder="Enter phone number"></Input>
-            </Styled.AntdFormItemCustom>
-            <Styled.AntdFormItemCustom
-              label="Email"
-              name="email"
-              rules={[
-                { required: true, message: "This field is a required field" },
-                {
-                  type: "email",
-                  message: "The input is not valid E-mail!",
-                },
-              ]}
-            >
-              <Input placeholder="Enter email address"></Input>
-            </Styled.AntdFormItemCustom>
-            <Styled.AntdFormItemCustom
-              label="Sex"
-              name="sex"
-              rules={[{ required: true }]}
-            >
-              <Select size="large" options={sexSelectList} />
-            </Styled.AntdFormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="name">Name</label>
+              <input
+                id="name"
+                placeholder="Enter name"
+                {...register("name")}
+              ></input>
+              <p>{errors.name ? errors.name.message : ""}</p>
+            </Styled.FormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input
+                id="phoneNumber"
+                placeholder="Enter phone number"
+                {...register("phoneNumber")}
+              ></input>
+              <p>{errors.phoneNumber ? errors.phoneNumber.message : ""}</p>
+            </Styled.FormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                placeholder="Enter email address"
+                {...register("email")}
+              ></input>
+              <p>{errors.email?.message}</p>
+            </Styled.FormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="sex">Sex</label>
+              <select id="sex" {...register("sex")}>
+                {sexSelectList.map((sex) => (
+                  <option value={sex.value} key={sex.value}>
+                    {sex.label}
+                  </option>
+                ))}
+              </select>
+              <p>{errors.sex ? errors.sex.message : ""}</p>
+            </Styled.FormItemCustom>
             <div className="flex flex-col">
-              <label className="form-label-custom">Date of birth</label>
+              <label>Date of birth</label>
               <div className="flex">
-                <Styled.AntdFormItemCustom
-                  name="day"
-                  rules={[{ required: true }]}
-                >
-                  <Select
-                    size="large"
-                    options={daySelectList}
-                    placeholder="Day"
-                  />
-                </Styled.AntdFormItemCustom>
-                <Styled.AntdFormItemCustom
-                  name="month"
-                  rules={[{ required: true }]}
-                >
-                  <Select
-                    size="large"
-                    options={monthSelectList}
-                    placeholder="Month"
-                  />
-                </Styled.AntdFormItemCustom>
-                <Styled.AntdFormItemCustom
-                  name="year"
-                  rules={[{ required: true }]}
-                >
-                  <Select
-                    size="large"
-                    options={yearSelectList}
-                    placeholder="Year"
-                  />
-                </Styled.AntdFormItemCustom>
+                <Styled.FormItemCustom style={{ flex: 1 }}>
+                  <select {...register("day")}>
+                    {daySelectList.map((day, idx) => (
+                      <option
+                        value={day.value}
+                        key={day.value}
+                        hidden={idx === 0}
+                      >
+                        {day.label}
+                      </option>
+                    ))}
+                  </select>
+                  <p>{errors.day ? errors.day.message : ""}</p>
+                </Styled.FormItemCustom>
+                <Styled.FormItemCustom style={{ flex: 1 }}>
+                  <select {...register("month")}>
+                    {monthSelectList.map((month, idx) => (
+                      <option
+                        value={month.value}
+                        key={month.value}
+                        hidden={idx === 0}
+                      >
+                        {month.label}
+                      </option>
+                    ))}
+                  </select>
+                  <p>{errors.month ? errors.month.message : ""}</p>
+                </Styled.FormItemCustom>
+                <Styled.FormItemCustom style={{ flex: 1 }}>
+                  <select {...register("year")}>
+                    {yearSelectList.map((year, idx) => (
+                      <option
+                        value={year.value}
+                        key={year.value}
+                        hidden={idx === 0}
+                      >
+                        {year.label}
+                      </option>
+                    ))}
+                  </select>
+                  <p>{errors.year ? errors.year.message : ""}</p>
+                </Styled.FormItemCustom>
               </div>
             </div>
-            <Styled.AntdFormItemCustom
-              label="Customer group"
-              name="customerGroup"
-              rules={[{ required: true }]}
-            >
-              <Select
-                size="large"
-                options={customerGroupSelectList}
-                placeholder="Select customer group"
-              />
-            </Styled.AntdFormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="customerGroup">Customer group</label>
+              <select {...register("customerGroup")}>
+                {customerGroupSelectList.map((customerGroup, idx) => (
+                  <option
+                    value={customerGroup.value}
+                    key={customerGroup.value}
+                    hidden={idx === 0}
+                  >
+                    {customerGroup.label}
+                  </option>
+                ))}
+              </select>
+              <p>{errors.customerGroup ? errors.customerGroup.message : ""}</p>
+            </Styled.FormItemCustom>
           </Col>
           <Col xs={12}>
-            <Styled.AntdFormItemCustom
-              label="Delivery area"
-              name="deliveryArea"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="Enter delivery area"></Input>
-            </Styled.AntdFormItemCustom>
-            <Styled.AntdFormItemCustom
-              label="Select Location/Branch"
-              name="location"
-              rules={[{ required: true }]}
-            >
-              <Select
-                size="large"
-                options={locationSelectList}
-                placeholder="Select location/branch"
-              />
-            </Styled.AntdFormItemCustom>
-            <Styled.AntdFormItemCustom
-              label="Building"
-              name="building"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="Enter building"></Input>
-            </Styled.AntdFormItemCustom>
-            <Styled.AntdFormItemCustom
-              label="Street"
-              name="street"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="Enter street"></Input>
-            </Styled.AntdFormItemCustom>
-            <Styled.AntdFormItemCustom
-              label="City"
-              name="city"
-              rules={[{ required: true }]}
-            >
-              <Input placeholder="Enter city"></Input>
-            </Styled.AntdFormItemCustom>
-            <Styled.AntdFormItemCustom
-              label="Country"
-              name="country"
-              rules={[{ required: true }]}
-            >
-              <Select
-                size="large"
-                options={countrySelectList}
-                placeholder="Select country"
-              />
-            </Styled.AntdFormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="deliveryArea">Delivery area</label>
+              <input
+                id="deliveryArea"
+                placeholder="Enter delivery area"
+                {...register("deliveryArea")}
+              ></input>
+              <p>{errors.deliveryArea ? errors.deliveryArea.message : ""}</p>
+            </Styled.FormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="location">Select Location/Branch</label>
+              <select {...register("location")}>
+                {locationSelectList.map((location, idx) => (
+                  <option
+                    value={location.value}
+                    key={location.value}
+                    hidden={idx === 0}
+                  >
+                    {location.label}
+                  </option>
+                ))}
+              </select>
+              <p>{errors.location ? errors.location.message : ""}</p>
+            </Styled.FormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="building">Building</label>
+              <input
+                id="building"
+                placeholder="Enter building"
+                {...register("building")}
+              ></input>
+              <p>{errors.building ? errors.building.message : ""}</p>
+            </Styled.FormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="street">Street</label>
+              <input
+                id="street"
+                placeholder="Enter street"
+                {...register("street")}
+              ></input>
+              <p>{errors.street ? errors.street.message : ""}</p>
+            </Styled.FormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="city">City</label>
+              <input
+                id="city"
+                placeholder="Enter city"
+                {...register("city")}
+              ></input>
+              <p>{errors.city ? errors.city.message : ""}</p>
+            </Styled.FormItemCustom>
+            <Styled.FormItemCustom>
+              <label htmlFor="country">Country</label>
+              <select {...register("country")}>
+                {countrySelectList.map((country, idx) => (
+                  <option
+                    value={country.value}
+                    key={country.value}
+                    hidden={idx === 0}
+                  >
+                    {country.label}
+                  </option>
+                ))}
+              </select>
+              <p>{errors.country ? errors.country.message : ""}</p>
+            </Styled.FormItemCustom>
           </Col>
         </Row>
         <div className="flex justify-center">
